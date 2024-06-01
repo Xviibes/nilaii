@@ -1,11 +1,11 @@
 <?php
 if (isset($_POST['update'])) {
     include_once('config.php');
-    $id = $_POST['id']
+    $id = $_POST['id'];
     $mapel = $_POST['mapel'];
     $sks = $_POST['sks'];
 
-    $sql = "UPDATE mapel SET mapel='$mapel', sks='$sks'"
+    $sql = "UPDATE mapel SET mapel='$mapel', sks='$sks'";
     $result = mysqli_query($con, $sql);
     if ($result) {
         header('location: index.php?m=mapel&s=view');
