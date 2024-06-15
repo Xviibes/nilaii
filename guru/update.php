@@ -8,7 +8,6 @@ if (isset($_POST['update'])) {
     $tempat_lahir = $_POST['tempat_lahir'];
     $tanggal_lahir = $_POST['tanggal_lahir'];
     $telepon = $_POST['telepon'];
-    $foto = $_POST['foto'];
 
     $acak = rand();
     $namafile = $_FILES['foto']['name'];
@@ -17,18 +16,18 @@ if (isset($_POST['update'])) {
     $ekstensi = array('png', 'jpg', 'jpeg', 'gif', 'svg', 'webp');
 
     if (!file_exists($_FILES['foto']['tmp_name']) || !is_uploaded_file($_FILES['foto']['tmp_name'])) {
-        $sql = "UPDATE guru SET nip='$nip', nama='$nama', jk='$jk', tempat_lahir='$tempat_lahir', tanggal_lahir='$tanggal_lahir', $telepon='telepon'; WHERE id='$id'";
+        $sql = "UPDATE guru SET nip='$nip', nama='$nama', jk='$jk', tempat_lahir='$tempat_lahir', tanggal_lahir='$tanggal_lahir', telepon='$telepon' WHERE id='$id'";
     } else {
         if (!in_array($akhiran, $ekstensi)) {
             include("index.php?m=guru");
             echo '<script language="JavaScript">';
-            echo 'alert("Akhiran file Anda, tidak diijinkan.")';
+            echo 'alert("Ekstensi file Anda, tidak diijinkan.")';
             echo '</script>';
         } else {
             if ($ukuran < 1000000) {
                 $nmfile = $acak . '_' . $namafile;
                 move_uploaded_file($_FILES['foto']['tmp_name'], 'guru/foto/' . $nmfile);
-                $sql = "UPDATE guru SET nip='$nip', nama='$nama', jk='$jk', tempat_lahir='$tempat_lahir', tanggal_lahir='$tanggal_lahir', $telepon='telepon';, foto='$nmfile' WHERE id='$id'";
+                $sql = "UPDATE guru SET nip='$nip', nama='$nama', jk='$jk', tempat_lahir='$tempat_lahir', tanggal_lahir='$tanggal_lahir', telepon='$telepon', foto='$nmfile' WHERE id='$id'";
             } else {
                 include("index.php?m=guru");
                 echo '<script language="JavaScript">';
@@ -37,6 +36,7 @@ if (isset($_POST['update'])) {
             }
         }
     }
+
     $result = mysqli_query($con, $sql);
     if ($result) {
         header('location: index.php?m=guru&s=view');
